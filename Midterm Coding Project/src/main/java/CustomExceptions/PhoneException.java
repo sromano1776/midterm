@@ -2,9 +2,9 @@ package CustomExceptions;
 
 import com.cisc181.core.Person;
 
-public class PersonException extends Exception {
+public class PhoneException extends Exception {
 	private Person p;
-	public PersonException(Person p){
+	public PhoneException(Person p){
 		super();
 		this.p=p;
 		
@@ -12,5 +12,4 @@ public class PersonException extends Exception {
 	public Person getp(){
 		return p;
 	}
-	
 }

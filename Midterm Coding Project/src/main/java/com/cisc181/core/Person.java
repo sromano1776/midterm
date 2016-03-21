@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import CustomExceptions.PersonException;
+import CustomExceptions.PhoneException;
 
 public abstract class Person implements java.io.Serializable {
 
@@ -45,10 +46,9 @@ public abstract class Person implements java.io.Serializable {
 		return DOB;
 	}
 
-	public void setDOB(Date DOB){
+	public void setDOB(Date DOB) {
 		this.DOB = DOB;
-		
-		
+
 	}
 
 	public void setAddress(String newAddress) {
@@ -61,7 +61,7 @@ public abstract class Person implements java.io.Serializable {
 
 	public void setPhone(String newPhone_number) {
 		phone_number = newPhone_number;
-	
+
 	}
 
 	public String getPhone() {
@@ -79,28 +79,34 @@ public abstract class Person implements java.io.Serializable {
 	/*
 	 * Constructors No Arg Constructor
 	 */
-	public void DOB() throws PersonException{
+	public void DOB() throws PersonException {
 		Date date = null;
-	    Calendar cal = Calendar.getInstance();
-	    cal.setTime(date);
-	    int year = cal.get(Calendar.YEAR);
-	    if (year<=1906){
-	    	throw new PersonException(this);
-	    }
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int year = cal.get(Calendar.YEAR);
+		if (year <= 1906) {
+			throw new PersonException(this);
+		}
 	}
-	private static boolean validatePhoneNumber(String phoneNo) throws  {
-        //validate phone numbers of format "1234567890"
-        if (phoneNo.matches("\\d{10}")) return true;
-        //validating phone number with -, . or spaces
-        else if(phoneNo.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) return true;
-        //validating phone number with extension length from 3 to 5
-        else if(phoneNo.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}")) return true;
-        //validating phone number where area code is in braces ()
-        else if(phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) return true;
-        //return false if nothing matches the input
-        else return false;
-         
-    }
+
+	public void validatePhoneNumber(String phone_number) throws PhoneException {
+		boolean numberexc=false;
+		if (phone_number.matches("\\d{10}"))
+			numberexc= true;
+		else if (phone_number.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}"))
+			numberexc= true;
+		else if (phone_number.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}"))
+			numberexc= true;
+		else if (phone_number.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}"))
+			numberexc= true;
+		else
+			numberexc=false;
+		if (numberexc=false){
+			throw new PhoneException(this);
+		}
+		
+	}
+
 	public Person() {
 
 	}
@@ -109,9 +115,8 @@ public abstract class Person implements java.io.Serializable {
 	 * Constructors Constructor with arguments
 	 */
 
-	public Person(String FirstName, String MiddleName, String LastName,
-			Date DOB, String Address, String Phone_number, String Email)
-	{
+	public Person(String FirstName, String MiddleName, String LastName, Date DOB, String Address, String Phone_number,
+			String Email) {
 		this.FirstName = FirstName;
 		this.MiddleName = MiddleName;
 		this.LastName = LastName;
@@ -119,12 +124,11 @@ public abstract class Person implements java.io.Serializable {
 		this.address = Address;
 		this.setPhone(Phone_number);
 		this.email_address = Email;
-		
+
 	}
 
 	public void PrintName() {
-		System.out.println(this.FirstName + ' ' + this.MiddleName + ' '
-				+ this.LastName);
+		System.out.println(this.FirstName + ' ' + this.MiddleName + ' ' + this.LastName);
 	}
 
 	public void PrintDOB() {
@@ -144,16 +148,14 @@ public abstract class Person implements java.io.Serializable {
 
 		// If birth date is greater than todays date (after 2 days adjustment of
 		// leap year) then decrement age one year
-		if ((birthDate.get(Calendar.DAY_OF_YEAR)
-				- today.get(Calendar.DAY_OF_YEAR) > 3)
+		if ((birthDate.get(Calendar.DAY_OF_YEAR) - today.get(Calendar.DAY_OF_YEAR) > 3)
 				|| (birthDate.get(Calendar.MONTH) > today.get(Calendar.MONTH))) {
 			age--;
 
 			// If birth date and todays date are of same month and birth day of
 			// month is greater than todays day of month then decrement age
 		} else if ((birthDate.get(Calendar.MONTH) == today.get(Calendar.MONTH))
-				&& (birthDate.get(Calendar.DAY_OF_MONTH) > today
-						.get(Calendar.DAY_OF_MONTH))) {
+				&& (birthDate.get(Calendar.DAY_OF_MONTH) > today.get(Calendar.DAY_OF_MONTH))) {
 			age--;
 		}
 
